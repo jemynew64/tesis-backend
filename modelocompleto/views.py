@@ -3,7 +3,7 @@ from .models import (Usuario, Curso, Unidad, Leccion, Reto, OpcionReto, Progreso
 from .serializers import (UsuarioSerializer, CursoSerializer, UnidadSerializer, LeccionSerializer,
                           RetoSerializer, OpcionRetoSerializer, ProgresoRetoSerializer, ProgresoUsuarioSerializer)
 from django.http import JsonResponse
-
+from .CursoDetalleSerializer import CursoResumenSerializer,LeccionConRetosSerializer
 
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
@@ -43,7 +43,8 @@ class ProgresoRetoViewSet(viewsets.ModelViewSet):
 class ProgresoUsuarioViewSet(viewsets.ModelViewSet):
     queryset = ProgresoUsuario.objects.all()
     serializer_class = ProgresoUsuarioSerializer
-
+################################----------------------------------------------------------------
+################################----------------------------------------------------------------
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -73,3 +74,30 @@ def obtener_datos_usuario(request, user_id):
         return JsonResponse(data)
     except Usuario.DoesNotExist:
         return JsonResponse({"error": "Usuario no encontrado"}, status=404)
+    
+    
+    ################################----------------------------------------------------------------
+    ################################----------------------------------------------------------------
+    ################################----------------------------------------------------------------
+    ################################----------------------------------------------------------------
+   
+class CursoDetalleView(APIView):
+    def get(self, request, curso_id):
+            try:
+                curso = Curso.objects.prefetch_related(
+                    'unidades__lecciones__retos__opciones'
+                ).get(id=curso_id)
+            except Curso.DoesNotExist:
+                return Response({'error': 'Curso no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+            serializer = CursoResumenSerializer(curso)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+class LeccionConRetosView(APIView):
+    def get(self, request, leccion_id):
+        try:
+            leccion = Leccion.objects.get(id=leccion_id)
+            serializer = LeccionConRetosSerializer(leccion)
+            return Response(serializer.data)
+        except Leccion.DoesNotExist:
+            return Response({"detail": "Lección no encontrada."}, status=404)
