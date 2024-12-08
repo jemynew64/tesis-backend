@@ -1,4 +1,5 @@
 from django.db import models
+from django.http import JsonResponse
 
 # Tabla de Usuarios
 class Usuario(models.Model):
@@ -7,9 +8,22 @@ class Usuario(models.Model):
     contraseña = models.CharField(max_length=255)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     imagen_perfil = models.CharField(max_length=255, default="/default_user.png")
+    corazones = models.IntegerField(default=5)  # Vidas globales del usuario
+    puntos = models.IntegerField(default=0)  # Puntos globales
+    experiencia = models.IntegerField(default=0)  # Experiencia global
+
+    def save(self, *args, **kwargs):
+        # Lógica para restringir los valores de corazones
+        if self.corazones > 5:
+            self.corazones = 5
+        elif self.corazones < 0:
+            self.corazones = 0
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.nombre
+
 
 # Tabla de Cursos
 class Curso(models.Model):
@@ -74,10 +88,13 @@ class ProgresoReto(models.Model):
 
 # Tabla de Progreso de Usuarios
 class ProgresoUsuario(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="progresos_usuario")  # Cambié de OneToOneField a ForeignKey
-    curso_activo = models.ForeignKey(Curso, on_delete=models.CASCADE, null=True, blank=True, related_name="usuarios")  # Relaciona el curso
-    corazones = models.IntegerField(default=5)
-    puntos = models.IntegerField(default=0)
+    usuario = models.ForeignKey(
+        Usuario, on_delete=models.CASCADE, related_name="progresos_usuario"
+    )
+    curso_activo = models.ForeignKey(
+        Curso, on_delete=models.CASCADE, null=False, blank=False, related_name="usuarios"
+    )
 
     def __str__(self):
-        return f"Progreso de: {self.usuario.nombre} en el curso {self.curso_activo.titulo}"
+        curso = self.curso_activo.titulo if self.curso_activo else "sin curso"
+        return f"Progreso de: {self.usuario.nombre} en el curso {curso}"

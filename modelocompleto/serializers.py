@@ -1,5 +1,42 @@
 from rest_framework import serializers
 from .models import (Usuario, Curso, Unidad, Leccion, Reto, OpcionReto, ProgresoReto, ProgresoUsuario)
+from rest_framework.exceptions import ValidationError
+from rest_framework_simplejwt.tokens import RefreshToken
+
+class LoginSerializer(serializers.Serializer):
+    nombre = serializers.CharField()  # Usamos 'nombre' en lugar de 'email'
+    contraseña = serializers.CharField()
+
+    def validate(self, attrs):
+        nombre = attrs.get('nombre')
+        contraseña = attrs.get('contraseña')
+
+        try:
+            usuario = Usuario.objects.get(nombre=nombre)  # Buscar por nombre
+        except Usuario.DoesNotExist:
+            raise ValidationError("Credenciales inválidas")
+
+        # Verificar la contraseña (sin hash, comparando como texto plano)
+        if usuario.contraseña != contraseña:
+            raise ValidationError("Credenciales inválidas")
+
+        # Generar el token JWT para el usuario
+        refresh = RefreshToken.for_user(usuario)
+        access_token = str(refresh.access_token)
+
+        # Añadir datos del usuario al diccionario
+        attrs['token'] = access_token
+        attrs['user'] = {
+            'id': usuario.id,
+            'nombre': usuario.nombre,
+            'email': usuario.email,
+            'imagen_perfil': usuario.imagen_perfil,
+            'corazones': usuario.corazones,  # Vidas globales
+            'puntos': usuario.puntos,  # Puntos globales
+            'experiencia': usuario.experiencia,  # Experiencia global
+        }
+
+        return attrs
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -70,4 +107,5 @@ class ProgresoUsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProgresoUsuario
-        fields = ['usuario', 'curso_activo', 'corazones', 'puntos']
+        fields = ['usuario', 'curso_activo']
+

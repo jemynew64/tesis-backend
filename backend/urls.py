@@ -2,9 +2,12 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from modelocompleto.views import (UsuarioViewSet, CursoViewSet, UnidadViewSet, LeccionViewSet,
-                         RetoViewSet, OpcionRetoViewSet, ProgresoRetoViewSet, ProgresoUsuarioViewSet)
+                         RetoViewSet, OpcionRetoViewSet, ProgresoRetoViewSet, ProgresoUsuarioViewSet,LoginView,obtener_datos_usuario)
 
-router = DefaultRouter()
+
+
+
+router = DefaultRouter()    
 router.register(r'usuarios', UsuarioViewSet)
 router.register(r'cursos', CursoViewSet)
 router.register(r'unidades', UnidadViewSet)
@@ -17,4 +20,8 @@ router.register(r'progresos_usuario', ProgresoUsuarioViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),  # Agrega la API bajo el prefijo /api/
+    path('login/', LoginView.as_view(), name='login'),
+    path('api/usuario/<int:user_id>/datos/', obtener_datos_usuario, name='obtener_datos_usuario'),  # Nueva ruta
+
+
 ]
