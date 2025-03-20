@@ -24,6 +24,4 @@ urlpatterns = [
     path('api/usuario/<int:user_id>/datos/', obtener_datos_usuario, name='obtener_datos_usuario'),  # Nueva ruta
     path('api/cursos/<int:curso_id>/detalle/', CursoDetalleView.as_view(), name='curso_detalle'),
     path('api/lecciones/<int:leccion_id>/detalle/', LeccionConRetosView.as_view(), name='leccion_detalle_retos'),
-
-
 ]

@@ -42,7 +42,7 @@ class LoginSerializer(serializers.Serializer):
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ['id', 'nombre', 'email', 'contraseña', 'fecha_creacion', 'imagen_perfil']
+        fields = '__all__'  # Esto traerá todos los campos del modelo
         extra_kwargs = {
             'contraseña': {'write_only': True},  # La contraseña no será legible al consultar usuarios.
         }
