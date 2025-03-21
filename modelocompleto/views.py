@@ -1,9 +1,14 @@
 from rest_framework import viewsets
 from .models import (Usuario, Curso, Unidad, Leccion, Reto, OpcionReto, ProgresoReto, ProgresoUsuario)
-from .serializers import (UsuarioSerializer, CursoSerializer, UnidadSerializer, LeccionSerializer,
-                          RetoSerializer, OpcionRetoSerializer, ProgresoRetoSerializer, ProgresoUsuarioSerializer)
+
 from django.http import JsonResponse
-from .CursoDetalleSerializer import CursoResumenSerializer,LeccionConRetosSerializer
+
+from modelocompleto.serializers import (
+    LoginSerializer, UsuarioSerializer, CursoSerializer, UnidadSerializer,
+    LeccionSerializer, RetoSerializer, OpcionRetoSerializer,
+    ProgresoRetoSerializer, ProgresoUsuarioSerializer,CursoResumenSerializer,LeccionConRetosSerializer
+)
+
 
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()

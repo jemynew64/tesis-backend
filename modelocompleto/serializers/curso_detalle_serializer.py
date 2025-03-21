@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ( Curso, Unidad, Leccion, Reto, OpcionReto)
+from ..models import ( Curso, Unidad, Leccion, Reto, OpcionReto)
 
 class LeccionResumenSerializer(serializers.ModelSerializer):
     estaBloqueada = serializers.SerializerMethodField()
