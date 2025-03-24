@@ -1,12 +1,12 @@
 from rest_framework import viewsets
-from .models import (Usuario, Curso, Unidad, Leccion, Reto, OpcionReto, ProgresoReto, ProgresoUsuario)
+from .models import (Usuario, Curso, Unidad, Leccion, Reto, OpcionReto, ProgresoReto, ProgresoUsuario, Logro, LogroObtenido)
 
 from django.http import JsonResponse
 
 from modelocompleto.serializers import (
     LoginSerializer, UsuarioSerializer, CursoSerializer, UnidadSerializer,
     LeccionSerializer, RetoSerializer, OpcionRetoSerializer,
-    ProgresoRetoSerializer, ProgresoUsuarioSerializer,CursoResumenSerializer,LeccionConRetosSerializer
+    ProgresoRetoSerializer, ProgresoUsuarioSerializer,CursoResumenSerializer,LeccionConRetosSerializer,LogroSerializer,LogroObtenidoSerializer
 )
 
 
@@ -48,6 +48,17 @@ class ProgresoRetoViewSet(viewsets.ModelViewSet):
 class ProgresoUsuarioViewSet(viewsets.ModelViewSet):
     queryset = ProgresoUsuario.objects.all()
     serializer_class = ProgresoUsuarioSerializer
+    
+# 📌 Nuevo: ViewSet para Logros
+class LogroViewSet(viewsets.ModelViewSet):
+    queryset = Logro.objects.all()
+    serializer_class = LogroSerializer
+
+
+# 📌 Nuevo: ViewSet para Logros Obtenidos
+class LogroObtenidoViewSet(viewsets.ModelViewSet):
+    queryset = LogroObtenido.objects.all()
+    serializer_class = LogroObtenidoSerializer
 ################################----------------------------------------------------------------
 ################################----------------------------------------------------------------
 from rest_framework.views import APIView

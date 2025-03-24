@@ -3,6 +3,13 @@ from django.http import JsonResponse
 
 # Tabla de Usuarios
 class Usuario(models.Model):
+    ADMIN = "admin"
+    ESTUDIANTE = "estudiante"
+    
+    TIPOS_USUARIO = [
+        (ADMIN, "admin"),
+        (ESTUDIANTE, "Estudiante"),
+    ]
     nombre = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     contraseña = models.CharField(max_length=255)
@@ -11,7 +18,10 @@ class Usuario(models.Model):
     corazones = models.IntegerField(default=5)  # Vidas globales del usuario
     puntos = models.IntegerField(default=0)  # Puntos globales
     experiencia = models.IntegerField(default=0)  # Experiencia global
-
+    nivel = models.IntegerField(default=1)
+    tipo_usuario = models.CharField(
+        max_length=10, choices=TIPOS_USUARIO, default=ESTUDIANTE
+    )
     def save(self, *args, **kwargs):
         # Lógica para restringir los valores de corazones
         if self.corazones > 5:
@@ -40,6 +50,9 @@ class Unidad(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE, related_name="unidades")
     orden = models.IntegerField()
 
+    class Meta:
+        ordering = ["orden"]
+        
     def __str__(self):
         return self.titulo
 
@@ -49,6 +62,8 @@ class Leccion(models.Model):
     unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE, related_name="lecciones")
     orden = models.IntegerField()
 
+    class Meta:
+        ordering = ["orden"]
     def __str__(self):
         return self.titulo
 
@@ -63,6 +78,8 @@ class Reto(models.Model):
     pregunta = models.TextField()
     orden = models.IntegerField()
 
+    class Meta:
+        ordering = ["orden"]
     def __str__(self):
         return f"{self.tipo} - {self.pregunta[:30]}"
 
@@ -98,3 +115,22 @@ class ProgresoUsuario(models.Model):
     def __str__(self):
         curso = self.curso_activo.titulo if self.curso_activo else "sin curso"
         return f"Progreso de: {self.usuario.nombre} en el curso {curso}"
+
+class Logro(models.Model):
+    titulo = models.CharField(max_length=255)  # Título del logro
+    descripcion = models.CharField(max_length=255)  # Breve descripción
+    imagen_src = models.CharField(max_length=255)  # Ruta de la imagen del logro
+    experiencia_requerida = models.IntegerField()  # XP mínima necesaria
+    nivel_requerido = models.IntegerField()  # Nivel mínimo necesario
+
+    def __str__(self):
+        return f"{self.titulo} (Nivel {self.nivel_requerido})"
+
+
+class LogroObtenido(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="logros_obtenidos")
+    logro = models.ForeignKey(Logro, on_delete=models.CASCADE, related_name="usuarios_obtenidos")
+    fecha_obtencion = models.DateTimeField(auto_now_add=True) 
+
+    def __str__(self):
+        return f"{self.usuario.nombre} obtuvo {self.logro.titulo} el {self.fecha_obtencion.strftime('%Y-%m-%d')}"

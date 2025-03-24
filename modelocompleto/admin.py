@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Usuario, Curso, Unidad, Leccion, Reto, OpcionReto, ProgresoReto, ProgresoUsuario
+from .models import Usuario, Curso, Unidad, Leccion, Reto, OpcionReto, ProgresoReto, ProgresoUsuario, Logro, LogroObtenido
 
 # Registro del modelo Usuario
 @admin.register(Usuario)
@@ -70,3 +70,14 @@ class ProgresoUsuarioAdmin(admin.ModelAdmin):
         return obj.usuario.puntos  # Accede al campo 'puntos' de Usuario
     get_puntos.admin_order_field = 'usuario__puntos'  # Permite ordenar por puntos
     get_puntos.short_description = 'Puntos'
+
+@admin.register(Logro)
+class LogroAdmin(admin.ModelAdmin):
+    list_display = ('id', 'titulo', 'descripcion', 'experiencia_requerida', 'nivel_requerido')
+    search_fields = ('titulo', 'descripcion')
+
+# Registro del modelo LogroObtenido
+@admin.register(LogroObtenido)
+class LogroObtenidoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'usuario', 'logro', 'fecha_obtencion')
+    search_fields = ('usuario__nombre', 'logro__titulo')

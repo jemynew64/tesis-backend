@@ -10,23 +10,12 @@ class Command(BaseCommand):
         curso_comunicacion = Curso.objects.create(titulo="Comunicación", imagen_src="comunicacion.png")
 
         # Crear los usuarios
-        usuario1 = Usuario.objects.create(nombre="Juan Pérez", email="juan@ejemplo.com", contraseña="defaultpassword", imagen_perfil="/default_user.png")
-        usuario2 = Usuario.objects.create(nombre="María López", email="maria@ejemplo.com", contraseña="defaultpassword", imagen_perfil="/default_user.png")
-        usuario3 = Usuario.objects.create(nombre="Carlos Díaz", email="carlos@ejemplo.com", contraseña="defaultpassword", imagen_perfil="/default_user.png")
+        usuario10 = Usuario.objects.create(nombre="jemal", email="jemal@ejemplo.com", contraseña="123456", imagen_perfil="/default_user.png",tipo_usuario="admin")
+        usuario1 = Usuario.objects.create(nombre="Juan Pérez", email="juan@ejemplo.com", contraseña="123456", imagen_perfil="/default_user.png")
+        usuario2 = Usuario.objects.create(nombre="María López", email="maria@ejemplo.com", contraseña="123456", imagen_perfil="/default_user.png")
+        usuario3 = Usuario.objects.create(nombre="Carlos Díaz", email="carlos@ejemplo.com", contraseña="123456", imagen_perfil="/default_user.png")
         usuario4 = Usuario.objects.create(nombre="neythan", email="neythan@ejemplo.com", contraseña="123456", imagen_perfil="/default_user.png")
         usuario5 = Usuario.objects.create(nombre="Jorge", email="jorge@ejemplo.com", contraseña="123456", imagen_perfil="/default_user.png")
-
-        # # Asignar el progreso de los usuarios (siempre los 2 cursos)
-        # ProgresoUsuario.objects.create(usuario=usuario1, curso_activo=curso_matematicas, corazones=5, puntos=0)
-        # ProgresoUsuario.objects.create(usuario=usuario1, curso_activo=curso_comunicacion, corazones=5, puntos=0)
-        # ProgresoUsuario.objects.create(usuario=usuario2, curso_activo=curso_matematicas, corazones=5, puntos=0)
-        # ProgresoUsuario.objects.create(usuario=usuario2, curso_activo=curso_comunicacion, corazones=5, puntos=0)
-        # ProgresoUsuario.objects.create(usuario=usuario3, curso_activo=curso_matematicas, corazones=5, puntos=0)
-        # ProgresoUsuario.objects.create(usuario=usuario3, curso_activo=curso_comunicacion, corazones=5, puntos=0)
-        # ProgresoUsuario.objects.create(usuario=usuario4, curso_activo=curso_matematicas, corazones=5, puntos=0)
-        # ProgresoUsuario.objects.create(usuario=usuario4, curso_activo=curso_comunicacion, corazones=5, puntos=0)
-        # ProgresoUsuario.objects.create(usuario=usuario5, curso_activo=curso_matematicas, corazones=5, puntos=0)
-        # ProgresoUsuario.objects.create(usuario=usuario5, curso_activo=curso_comunicacion, corazones=5, puntos=0)
 
         # Crear Unidades para Matemáticas
         unidad_matematicas_1 = Unidad.objects.create(titulo="Suma y Resta", descripcion="Aprende a sumar y restar números.", curso=curso_matematicas, orden=1)

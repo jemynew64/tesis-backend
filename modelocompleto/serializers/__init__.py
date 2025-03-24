@@ -6,3 +6,5 @@ from .reto_serializer import RetoSerializer
 from .opcion_reto_serializer import OpcionRetoSerializer
 from .progreso_serializer import ProgresoRetoSerializer, ProgresoUsuarioSerializer
 from .curso_detalle_serializer import CursoResumenSerializer, LeccionConRetosSerializer
+from .LogroSerializer import LogroSerializer
+from .LogroObtenidoSerializer import LogroObtenidoSerializer

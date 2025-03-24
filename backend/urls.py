@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from modelocompleto.views import (UsuarioViewSet, CursoViewSet, UnidadViewSet, LeccionViewSet,
-                         RetoViewSet, OpcionRetoViewSet, ProgresoRetoViewSet, ProgresoUsuarioViewSet,LoginView,obtener_datos_usuario,CursoDetalleView,LeccionConRetosView)
+                         RetoViewSet, OpcionRetoViewSet, ProgresoRetoViewSet, ProgresoUsuarioViewSet,LoginView,obtener_datos_usuario,CursoDetalleView,LeccionConRetosView,LogroObtenidoViewSet,LogroViewSet)
 
 
 
@@ -16,6 +16,8 @@ router.register(r'retos', RetoViewSet)
 router.register(r'opciones_reto', OpcionRetoViewSet)
 router.register(r'progresos_reto', ProgresoRetoViewSet)
 router.register(r'progresos_usuario', ProgresoUsuarioViewSet)
+router.register(r'logro_obtenido', LogroObtenidoViewSet)
+router.register(r'logro', LogroViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
