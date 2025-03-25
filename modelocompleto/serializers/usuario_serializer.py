@@ -32,6 +32,8 @@ class LoginSerializer(serializers.Serializer):
             'corazones': usuario.corazones,
             'puntos': usuario.puntos,
             'experiencia': usuario.experiencia,
+            "nivel": usuario.nivel,  # Agregando nivel
+            "tipo_usuario": usuario.tipo_usuario,  # Agregando tipo_usuario
         }
 
         return attrs

@@ -8,7 +8,7 @@ class Usuario(models.Model):
     
     TIPOS_USUARIO = [
         (ADMIN, "admin"),
-        (ESTUDIANTE, "Estudiante"),
+        (ESTUDIANTE, "estudiante"),
     ]
     nombre = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
@@ -94,6 +94,7 @@ class OpcionReto(models.Model):
     def __str__(self):
         return self.texto
 
+#no admin################################################################################################3
 # Tabla de Progreso de Retos
 class ProgresoReto(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="progresos_retos")
@@ -103,6 +104,7 @@ class ProgresoReto(models.Model):
     def __str__(self):
         return f"Usuario: {self.usuario.nombre} - Completado: {self.completado}"
 
+#no admin################################################################################################3
 # Tabla de Progreso de Usuarios
 class ProgresoUsuario(models.Model):
     usuario = models.ForeignKey(
@@ -126,7 +128,7 @@ class Logro(models.Model):
     def __str__(self):
         return f"{self.titulo} (Nivel {self.nivel_requerido})"
 
-
+#no admin################################################################################################3
 class LogroObtenido(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="logros_obtenidos")
     logro = models.ForeignKey(Logro, on_delete=models.CASCADE, related_name="usuarios_obtenidos")
