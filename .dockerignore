@@ -1,0 +1,54 @@
+# Ignorar archivos y directorios innecesarios para el contenedor
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Entornos virtuales y dependencias locales
+#.env
+.venv/
+#env/
+venv/
+#ENV/
+
+# Base de datos local (si usas SQLite)
+db.sqlite3
+db.sqlite3-journal
+
+# Archivos estáticos y de medios (Django generará estos dentro del contenedor)
+staticfiles/
+media/
+
+# Caché y archivos temporales
+*.cache
+*.coverage
+.coverage.*
+.tox/
+.nox/
+.pytest_cache/
+.hypothesis/
+.mypy_cache/
+.pyre/
+.pytype/
+cython_debug/
+
+# Configuración de herramientas locales
+.spyderproject
+.spyproject
+.ropeproject
+
+# Archivos de compilación y distribución
+build/
+dist/
+.eggs/
+*.egg-info/
+MANIFEST
+develop-eggs/
+downloads/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
